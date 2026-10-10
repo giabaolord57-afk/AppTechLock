@@ -97,8 +97,14 @@ footer{text-align:center;color:#66667d;font-size:12px;margin-top:20px}
 <div class="soundrow"><button class="btn green" id="play">▶ Phát nhạc</button><button class="btn secondary" id="pause">Ⅱ Tạm dừng</button><button class="btn secondary" id="stop">■ Dừng</button></div>
 <div class="row"><div><strong>Âm lượng</strong><small>Điều chỉnh âm thanh của trình phát</small></div><span class="rangeval" id="volVal">60%</span></div>
 <input id="volume" type="range" min="0" max="100" value="60" aria-label="Âm lượng">
-<audio id="music" preload="metadata" loop src="https://drive.google.com/uc?export=download&id=1CfMdhuOSJbqOKWhWlvzKBP_L3CjR2GUZ"></audio>
-<div class="filehint" id="audioStatus">Nhạc được tải từ Google Drive; hãy đặt quyền chia sẻ thành “Bất kỳ ai có đường liên kết”.</div>
+<iframe
+  src="https://drive.google.com/file/d/1CfMdhuOSJbqOKWhWlvzKBP_L3CjR2GUZ/preview"
+  width="100%"
+  height="80"
+  allow="autoplay"
+  style="border:0;border-radius:12px;">
+</iframe>
+<div class="filehint">Nhấn nút phát trên trình phát Google Drive để nghe nhạc.</div>
 </section>
 <section class="card" style="grid-column:1/-1">
 <h3>⌨ Script Box · Tiến trình</h3><p class="desc">Nhật ký thao tác của bảng điều khiển (không chạy script hệ thống hay mã can thiệp game).</p>
