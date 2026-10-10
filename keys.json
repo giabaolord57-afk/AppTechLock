@@ -1,0 +1,10 @@
+{
+  "app": "TechLock X",
+  "keys": [
+    {
+      "key": "TX-DEMO-CHANGE-ME",
+      "active": true,
+      "label": "Key mẫu - hãy đổi trước khi dùng"
+    }
+  ]
+}
