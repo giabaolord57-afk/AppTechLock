@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10101a">
+<title>TechLock X</title>
+<style>
+:root{--bg:#0b0b12;--panel:#141420;--panel2:#1b1b2b;--text:#f4f4ff;--muted:#9a9ab2;--purple:#a855f7;--cyan:#43e6d0;--line:#2c2c43;--green:#46e69a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1b1230 0,#0b0b12 55%);color:var(--text);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+.wrap{max-width:980px;margin:auto;padding:24px 16px 40px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#a855f7,#43e6d0);display:grid;place-items:center;color:#080811;font-weight:950;font-size:20px;box-shadow:0 0 30px #a855f733}
+h1{font-size:clamp(24px,4vw,34px);line-height:1.1;margin:0;letter-spacing:.4px} .sub{color:var(--muted);margin-top:5px;font-size:13px}
+.pill{border:1px solid #3a3153;background:#1a1528;border-radius:999px;padding:7px 11px;color:#d8b4fe;font-size:12px;white-space:nowrap}
+.hero{padding:22px;border:1px solid #302543;border-radius:22px;background:linear-gradient(130deg,#211433,#131421 58%,#102322);box-shadow:0 18px 60px #0005;margin-bottom:18px}
+.hero h2{margin:0 0 6px;font-size:21px}.hero p{margin:0;color:#c5c2d7}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,#171725,#11111b);padding:17px;min-width:0}
+.card h3{font-size:16px;margin:0 0 5px}.desc{color:var(--muted);font-size:13px;margin:0 0 14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 0;border-top:1px solid #28283a}.row:first-of-type{border-top:0}
+.row strong{font-size:14px}.row small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.toggle{appearance:none;width:44px;height:25px;background:#39394b;border-radius:999px;position:relative;cursor:pointer;flex:none;transition:.2s}
+.toggle:before{content:"";position:absolute;width:19px;height:19px;left:3px;top:3px;background:white;border-radius:50%;transition:.2s}.toggle:checked{background:linear-gradient(90deg,#9333ea,#43e6d0)}.toggle:checked:before{transform:translateX(19px)}
+.btn{border:0;border-radius:12px;padding:11px 14px;background:linear-gradient(100deg,#9333ea,#6d4aff);color:white;font-weight:750;cursor:pointer;transition:transform .15s,filter .15s;font-size:13px}.btn:hover{filter:brightness(1.12);transform:translateY(-1px)}.btn.secondary{background:#252538;border:1px solid #393950;color:#f2edff}.btn.green{background:linear-gradient(100deg,#0f9f77,#35d3b3);color:#061b17}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.full{width:100%}.keybox{width:100%;min-height:90px;resize:vertical;background:#0d0d17;border:1px solid #33334b;color:#d9d9f6;border-radius:12px;padding:12px;font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.games{display:grid;grid-template-columns:1fr 1fr;gap:10px}.game{border:1px solid #38304e;border-radius:14px;background:#1a1627;padding:14px;text-align:left;color:white;cursor:pointer}.game b{display:block;margin-bottom:4px}.game span{color:#aaa4c5;font-size:12px}
+.progress{height:8px;background:#29293b;border-radius:99px;overflow:hidden;margin:12px 0 7px}.bar{height:100%;width:0;background:linear-gradient(90deg,#a855f7,#43e6d0);transition:width .25s}.log{height:145px;overflow:auto;border:1px solid #29293e;border-radius:12px;background:#090910;padding:11px;font:12px/1.6 ui-monospace,monospace;color:#b9f6dc;white-space:pre-wrap}
+input[type=range]{width:100%;accent-color:#a855f7}.rangeval{color:#d8b4fe;font-weight:800}
+.note{font-size:12px;color:#9999b2;margin-top:12px}.soundrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.filehint{color:var(--muted);font-size:12px;margin-top:8px}
+footer{text-align:center;color:#66667d;font-size:12px;margin-top:20px}
+
+.gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(5,5,12,.94);backdrop-filter:blur(12px)}
+.gate.hidden{display:none}
+.gatebox{width:min(100%,410px);padding:24px;border:1px solid #43305e;border-radius:22px;background:linear-gradient(155deg,#20152f,#11111c 70%);box-shadow:0 25px 90px #0009}
+.gatebrand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.gateinput{width:100%;height:48px;border-radius:12px;border:1px solid #45405b;background:#0b0b14;color:#fff;padding:0 14px;font-size:16px;outline:none}
+.gateinput:focus{border-color:#a855f7;box-shadow:0 0 0 3px #a855f722}
+.gateerror{font-size:13px;color:#fda4af;min-height:20px;margin-top:9px}
+.gatehint{font-size:12px;color:#aaa6c1;line-height:1.5;margin-top:13px}
+
+@media(max-width:680px){
+  .grid{grid-template-columns:1fr}
+  .top{align-items:flex-start;margin-bottom:14px}
+  .pill{display:none}
+  .hero{padding:16px;border-radius:18px}
+  .wrap{padding:14px 10px 28px}
+  .card{padding:15px;border-radius:16px}
+  .games{grid-template-columns:1fr}
+  .game{min-height:66px}
+  .btn{min-height:44px;font-size:14px}
+  .actions{display:grid;grid-template-columns:1fr}
+  .actions .btn{width:100%}
+  .keypreview{overflow-wrap:anywhere}
+  h1{font-size:27px}
+}
+.keyupload{border:1px dashed #51416b;border-radius:14px;padding:12px;background:#100f1b}
+.keypreview{margin-top:12px;padding:12px;border-radius:10px;background:#090910;color:#c7c7df;font-size:13px;min-height:48px}
+.keypreview.ok{color:#86efac;border:1px solid #22543d}
+.keypreview.bad{color:#fda4af;border:1px solid #6b2632}
+
+
+.music-card{position:relative;overflow:hidden;background:radial-gradient(ellipse at 10% 0%,#382052 0,transparent 52%),linear-gradient(145deg,#191725,#101019)}
+.section-kicker{font-size:10px;letter-spacing:2px;font-weight:850;color:#bda4ff;margin-bottom:7px}
+.music-card h3{font-size:20px;margin-bottom:6px}
+.music-frame{height:94px;border:1px solid #3c3155;border-radius:16px;overflow:hidden;background:#0b0b12;box-shadow:0 10px 30px #0004}
+.music-frame iframe{display:block;border:0}
+.music-foot{display:flex;align-items:center;gap:8px;color:#aaa4c0;font-size:11px;margin-top:12px}
+.music-dot{width:8px;height:8px;border-radius:50%;background:#43e6d0;box-shadow:0 0 12px #43e6d0}
+.admin-card{grid-column:1/-1;background:linear-gradient(130deg,#1c182b,#11111b 72%);border-color:#3a3150}
+.admin-head{display:flex;align-items:center;gap:15px;margin-bottom:18px}
+.admin-avatar{width:82px;height:82px;display:block;flex:none;border-radius:50%;padding:3px;background:linear-gradient(135deg,#a855f7,#43e6d0);box-shadow:0 0 26px #a855f733;overflow:hidden}
+.admin-avatar img{width:100%;height:100%;display:block;object-fit:cover;border-radius:50%;background:#171321}
+.avatar-fallback{display:none;width:100%;height:100%;place-items:center;border-radius:50%;background:#21172f;color:#fff;font-size:30px;font-weight:900}
+.admin-title h3{font-size:20px;margin:0 0 3px}
+.admin-title .desc{margin:0}
+.admin-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.contact-link{display:flex;align-items:center;gap:11px;text-decoration:none;color:#f5f2ff;border:1px solid #343047;border-radius:14px;background:#14131f;padding:12px;min-width:0;transition:transform .15s,border-color .15s}
+.contact-link:hover{transform:translateY(-2px);border-color:#8c65c8}
+.contact-icon{display:grid;place-items:center;width:38px;height:38px;flex:none;border-radius:12px;font-weight:900;font-size:18px;background:#25203a;color:#fff}
+.zalo .contact-icon{background:#0868df}
+.facebook .contact-icon{background:#1877f2;font-family:Arial,sans-serif}
+.contact-link b,.contact-link small{display:block}
+.contact-link small{font-size:11px;color:#a7a1bb;margin-top:2px}
+.arrow{margin-left:auto;color:#bda4ff}
+.photo-link{display:inline-block;margin-top:14px;color:#c9b2ff;text-decoration:none;font-size:12px}
+.photo-link:hover{text-decoration:underline}
+@media(max-width:680px){.admin-links{grid-template-columns:1fr}.admin-avatar{width:72px;height:72px}.music-frame{height:94px}}
+
+</style>
+</head>
+<body>
+<div class="gate" id="keyGate">
+  <div class="gatebox">
+    <div class="gatebrand"><div class="logo">TX</div><div><h1 style="font-size:26px">TechLock X</h1><div class="sub">KEY ACCESS · ADMIN MANAGED</div></div></div>
+    <h2 style="font-size:19px;margin:0 0 7px">Nhập key để tiếp tục</h2>
+    <p class="desc">Nhập key được quản trị viên cấp. Bạn cần xác thực thành công mới vào được bảng điều khiển.</p>
+    <form id="keyForm">
+      <input id="accessKey" class="gateinput" type="password" placeholder="Nhập key của bạn" autocomplete="off" required>
+      <button class="btn full" style="margin-top:12px;min-height:46px" type="submit">Xác nhận key</button>
+    </form>
+    <div id="gateError" class="gateerror" role="status"></div>
+    <div class="gatehint">Key được đối chiếu với file <b>keys.json</b> do admin quản lý trên máy chủ. Nếu chưa có file hoặc không kết nối được, hãy liên hệ admin.</div>
+  </div>
+</div>
+<div class="wrap" id="appContent">
+<header class="top"><div class="brand"><div class="logo">TX</div><div><h1>TechLock X</h1><div class="sub">GAME TOOLKIT · PERSONAL DASHBOARD</div></div></div><div class="pill">● LOCAL MODE</div></header>
+<section class="hero"><h2>Tối ưu trải nghiệm chơi game</h2><p>Giao diện tối ưu cho điện thoại: xác thực key, âm thanh và nhật ký tiến trình. Các công tắc bên dưới lưu cấu hình trong trình duyệt; chúng không thay đổi trực tiếp hệ thống hoặc game.</p></section>
+<div class="grid">
+<section class="card">
+<h3>⚙️ Tối ưu trải nghiệm</h3><p class="desc">Thiết lập tham khảo giúp bạn tinh chỉnh cách chơi và theo dõi cấu hình. Thay đổi chỉ được lưu trong giao diện, không tự chỉnh hệ thống hoặc game.</p>
+<div class="row"><div><strong>RAM · Bộ nhớ</strong><small>Gợi ý kiểm tra ứng dụng nền trước khi vào trận</small></div><input class="toggle feature" type="checkbox" data-name="RAM · Bộ nhớ"></div>
+<div class="row"><div><strong>CPU · Hiệu năng</strong><small>Nhắc kiểm tra chế độ hiệu năng của thiết bị</small></div><input class="toggle feature" type="checkbox" data-name="CPU · Hiệu năng"></div>
+<div class="row"><div><strong>FPS · Khung hình</strong><small>Gợi ý chọn mức FPS trong cài đặt game nếu thiết bị hỗ trợ</small></div><input class="toggle feature" type="checkbox" data-name="FPS · Khung hình"></div>
+<div class="row"><div><strong>Độ nhạy (Sensitivity)</strong><small>Điều chỉnh mức tham khảo để luyện kéo tâm theo thói quen</small></div><span class="rangeval" id="sensVal">85</span></div>
+<input id="sens" type="range" min="0" max="100" value="85" aria-label="Độ nhạy">
+<div class="row"><div><strong>🎯 Hỗ trợ nhẹ tâm</strong><small>Gợi ý tinh chỉnh độ nhạy và luyện kéo tâm để ngắm ổn định hơn; không tự khóa vào đầu đối thủ</small></div><input class="toggle feature" type="checkbox" data-name="Hỗ trợ nhẹ tâm"></div>
+</section>
+
+<section class="card">
+<h3>🎮 Mở game</h3><p class="desc">Chọn game để mở trang chính thức/cửa hàng. Trình duyệt không thể tự khởi chạy ứng dụng đã cài.</p>
+<div class="games"><button class="game" id="ffmax"><b>🔥 Free Fire MAX</b><span>Mở trang game</span></button><button class="game" id="ff"><b>🎯 Free Fire thường</b><span>Mở trang game</span></button></div>
+<p class="note">Nếu game đã cài, hãy mở game trực tiếp trên thiết bị. Link web không bảo đảm mở ứng dụng.</p>
+</section>
+<section class="card music-card">
+<div class="section-kicker">NOW PLAYING</div>
+<h3>🎧 Góc âm nhạc</h3>
+<p class="desc">Thư giãn với bản remix ngay trong trang. Nhấn nút phát trên trình phát bên dưới để bắt đầu nghe.</p>
+<div class="music-frame">
+  <iframe title="Trình phát nhạc Google Drive"
+    src="https://drive.google.com/file/d/1CfMdhuOSJbqOKWhWlvzKBP_L3CjR2GUZ/preview"
+    width="100%" height="100%" allow="autoplay" loading="lazy">
+  </iframe>
+</div>
+<div class="music-foot"><span class="music-dot"></span> Trình phát được cung cấp bởi Google Drive</div>
+</section>
+<section class="card" style="grid-column:1/-1">
+<h3>⌨ Script Box · Tiến trình</h3><p class="desc">Nhật ký thao tác của bảng điều khiển (không chạy script hệ thống hay mã can thiệp game).</p>
+<div class="progress"><div class="bar" id="bar"></div></div><div id="progressLabel" class="filehint">Sẵn sàng · 0%</div>
+<div class="log" id="log" role="log" aria-live="polite">[TechLock X] Khởi tạo bảng điều khiển...\n[OK] Giao diện sẵn sàng.\n[INFO] Chọn một tính năng để ghi nhận vào tiến trình.</div>
+<div class="actions"><button class="btn" id="run">▶ Chạy kiểm tra giao diện</button><button class="btn secondary" id="clear">Xóa nhật ký</button></div>
+</section>
+</div>
+<section class="card admin-card">
+  <div class="admin-head">
+    <a class="admin-avatar" href="https://postimg.cc/CnBmR4HX" target="_blank" rel="noopener noreferrer" aria-label="Mở ảnh admin">
+      <img src="https://postimg.cc/CnBmR4HX" alt="Ảnh admin NgxbaoIos" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+      <span class="avatar-fallback">N</span>
+    </a>
+    <div class="admin-title"><div class="section-kicker">CONTACT & SUPPORT</div><h3>Admin · NgxbaoIos</h3><p class="desc">Hỗ trợ & liên hệ quản trị viên</p></div>
+  </div>
+  <div class="admin-links">
+    <a class="contact-link zalo" href="http://zalo.me/0984840729" target="_blank" rel="noopener noreferrer"><span class="contact-icon">Z</span><span><b>Zalo</b><small>Nhắn tin cho admin</small></span><span class="arrow">↗</span></a>
+    <a class="contact-link facebook" href="https://www.facebook.com/share/1coXuAtiMJ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer"><span class="contact-icon">f</span><span><b>Facebook</b><small>Xem trang/chia sẻ Facebook</small></span><span class="arrow">↗</span></a>
+  </div>
+  <a class="photo-link" href="https://postimg.cc/CnBmR4HX" target="_blank" rel="noopener noreferrer">Xem ảnh admin ↗</a>
+</section>
+<footer>TechLock X · Mobile-first HTML · Không phải công cụ sửa đổi game</footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+$('keyForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const entered=$('accessKey').value.trim();
+  const err=$('gateError');
+  err.textContent='Đang kiểm tra key...';
+  try{
+    const response=await fetch('./keys.json',{cache:'no-store'});
+    if(!response.ok) throw new Error('Không tìm thấy file keys.json trên máy chủ.');
+    const data=await response.json();
+    const list=Array.isArray(data.keys)?data.keys:[];
+    const valid=list.some(item=>{
+      if(typeof item==='string') return item===entered;
+      return item && item.key===entered && item.active!==false;
+    });
+    if(!valid) throw new Error('Key không đúng hoặc đã bị vô hiệu hóa.');
+    $('keyGate').classList.add('hidden');
+    $('gateError').textContent='';
+    log('Key hợp lệ. Đã mở khóa giao diện.');
+  }catch(error){
+    err.textContent=error.message || 'Không thể xác thực key.';
+    log('Xác thực key thất bại: '+err.textContent);
+  }
+});
+function log(msg){const el=$('log');el.textContent+=`\n[${new Date().toLocaleTimeString()}] ${msg}`;el.scrollTop=el.scrollHeight;}
+function progress(n,msg){$('bar').style.width=n+'%';$('progressLabel').textContent=msg+' · '+n+'%';}
+$('sens').addEventListener('input',e=>{$('sensVal').textContent=e.target.value;log('Độ nhạy tham khảo đặt ở '+e.target.value+'.');});
+document.querySelectorAll('.feature').forEach(el=>el.addEventListener('change',()=>{log(el.dataset.name+': '+(el.checked?'BẬT':'TẮT')+' (cấu hình giao diện).');}));
+$('ffmax').onclick=()=>{log('Đã chọn Free Fire MAX; mở trang game.');window.open('https://play.google.com/store/apps/details?id=com.dts.freefiremax','_blank','noopener');};
+$('ff').onclick=()=>{log('Đã chọn Free Fire thường; mở trang game.');window.open('https://play.google.com/store/apps/details?id=com.dts.freefireth','_blank','noopener');};
+$('run').onclick=async()=>{const steps=['Kiểm tra cấu hình giao diện','Kiểm tra JSON','Cập nhật trạng thái tính năng','Hoàn tất'];$('run').disabled=true;for(let i=0;i<steps.length;i++){await new Promise(r=>setTimeout(r,380));progress(Math.round((i+1)/steps.length*100),steps[i]);log(steps[i]+'...');}log('Hoàn tất. Đây chỉ là kiểm tra giao diện, không tối ưu hệ thống thật.');$('run').disabled=false;};
+$('clear').onclick=()=>{$('log').textContent='[TechLock X] Nhật ký đã được xóa.';progress(0,'Sẵn sàng');};
+</script>
+</body>
+</html>
